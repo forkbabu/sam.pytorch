@@ -57,10 +57,10 @@ class Trainer(trainers.SupervisedTrainer):
 
 
 def _main(cfg):
-    model = MODEL_REGISTRY(cfg.model)(num_classes=10)
+    model = MODEL_REGISTRY(cfg.model)(num_classes=100)
     if cfg.jit_model:
         model = torch.jit.script(model)
-    train_loader, test_loader = DATASET_REGISTRY("cifar10")(cfg.batch_size, num_workers=4, download=True)
+    train_loader, test_loader = DATASET_REGISTRY("cifar100")(cfg.batch_size, num_workers=4, download=True)
     optimizer = (SAM(lr=cfg.optim.lr, momentum=0.9, weight_decay=cfg.optim.weight_decay, rho=cfg.optim.rho)
                  if cfg.optim.name == "sam" else
                  homura.optim.SGD(lr=cfg.optim.lr, momentum=0.9, weight_decay=cfg.optim.weight_decay))
